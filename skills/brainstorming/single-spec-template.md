@@ -1,7 +1,7 @@
 # 单份 Spec 模板
 
-当需求不需要拆成父子 spec 时，使用这个模板。
-如果后续范围变化并拆成父子 spec，请同时遵循 [split-spec-conventions.md](./split-spec-conventions.md) 中的共享约定。
+当需求不需要拆成 parent/child spec 时，使用这个模板。
+如果后续范围变化并拆成 parent/child spec，请同时遵循 [split-spec-conventions.md](./split-spec-conventions.md) 中的共享约定。
 
 ```markdown
 # [Feature Name] Spec
@@ -36,7 +36,7 @@
 #### Shared Verification Baseline
 - 主路径：[用真实公共入口串起的 boilerplate，例如 `init -> source add -> scan start -> serve`；如不适用则写明]
 - 默认断言层级：[DOM/HTTP/DB/artifact 等观察层级；调试产物保留到 `.tmp/<topic>/`]
-- 防 mock 逃逸禁令：[本 slice 内对所有 AC 都生效的禁令，例如不得直接写 SQL、不得跳过 HTTP 表单、不得伪造 cookie 或绕过真实执行路径]
+- 防 mock 逃逸禁令：[本 feature slice 内对所有 AC 都生效的禁令，例如不得直接写 SQL、不得跳过 HTTP 表单、不得伪造 cookie 或绕过真实执行路径]
 - 如果包含 trigger-driven workflow，所有 AC 都必须覆盖公共 trigger 到真实执行路径，以及可观察的进展或终态信号。
 - 测试必须能在只有脚手架、硬编码成功、直接状态修改或绕过真实执行路径的实现上失败。
 

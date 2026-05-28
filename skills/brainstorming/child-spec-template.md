@@ -1,6 +1,6 @@
-# 子 Spec 模板
+# Child Spec 模板
 
-当需求已经拆成父子 spec，且当前轮次要写一个已批准子 spec 时，使用这个模板。
+当需求已经拆成 parent/child spec，且当前轮次要写一个已批准 child spec 时，使用这个模板。
 在填写本模板前，先遵循 [split-spec-conventions.md](./split-spec-conventions.md) 中的拆分追踪、命名、相对链接和 `Global Constraints` 继承规则。
 
 ```markdown
@@ -8,12 +8,11 @@
 
 ## Parent Spec
 - Parent Spec: [YYYY-MM-DD-<topic>-spec.md](./YYYY-MM-DD-<topic>-spec.md)
-- Current Approval Scope: [说明这个子 spec 在父 spec 当前批准范围中的角色]
-- Sibling Specs: [已写出的 sibling spec 链接；如果暂无则写明暂无，未来候选仍以父 spec 为准]
+- Current Approval Scope: [说明这个 child spec 在父 spec 当前批准范围中的角色]
 
 ## Global Constraints
 - Shared constraints: 继承父 spec 的共享约束，见 [YYYY-MM-DD-<topic>-spec.md](./YYYY-MM-DD-<topic>-spec.md) 的 `Global Constraints`。
-- [仅写本子 spec 独有的额外约束；如果没有，可以写“无额外约束”]
+- [仅写本 child spec 独有的额外约束；如果没有，可以写“无额外约束”]
 
 ## Feature Slice 1: [用户可见能力]
 

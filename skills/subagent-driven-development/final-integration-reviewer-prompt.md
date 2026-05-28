@@ -70,7 +70,7 @@ Controller 不应仅因 `wait_agent` 超时或 subagent running 时间较长而�
     **第 3 步：最终全量实现 Review**
     把 `controller` 开发分支当前 worktree 当作整体检查。Focused re-review 时，把 unstaged 修复和其触及文件的最终状态作为主要审查对象，并确认上一轮未受影响的收尾结论仍可沿用：
     - 所有标记为 `Implementation status: Done` 的 feature slice 都确实已实现。
-    - 没有误实现 `Implementation status: Not done` 的 feature slice、其他子 spec 或 `Candidate Future Split Specs` 条目。
+    - 没有误实现 `Implementation status: Not done` 的 feature slice、其他 child spec 或 `Candidate Future Split Specs` 条目。
     - 公共入口、验收标准、自动化验证和运行时语义在完整测试与 smoke check 通过后依然成立。
     - 跨任务交互没有引入冲突、重复行为或范围漂移。
 
@@ -82,12 +82,12 @@ Controller 不应仅因 `wait_agent` 超时或 subagent running 时间较长而�
     ## 已批准的 Spec 范围
 
     - Spec reference: [SPEC_REFERENCE]
-    - Implemented slices (`Implementation status: Done`): [IMPLEMENTED_SLICES]
-    - Must remain unimplemented: [OUT_OF_SCOPE_SLICES]
+    - Implemented feature slices (`Implementation status: Done`): [IMPLEMENTED_FEATURE_SLICES]
+    - Feature slices / child specs that must remain unimplemented: [OUT_OF_SCOPE_FEATURE_SLICES_OR_CHILD_SPECS]
     - Critical public entrypoints / workflows: [CRITICAL_ENTRYPOINTS]
     - Verification commands and smoke checks you must run: [VERIFICATION_EXPECTATIONS]
 
-    直接读取 `SPEC_REFERENCE` 指向的 spec 文件，确认 `IMPLEMENTED_SLICES`、`OUT_OF_SCOPE_SLICES`、关键公共入口和验证预期与 spec 真实状态一致。如果你找不到 spec 文件、对应 slice、AC 或必要公共入口，返回 Issues Found，并说明缺失的定位信息。
+    直接读取 `SPEC_REFERENCE` 指向的 spec 文件，确认 `IMPLEMENTED_FEATURE_SLICES`、`OUT_OF_SCOPE_FEATURE_SLICES_OR_CHILD_SPECS`、关键公共入口和验证预期与 spec 真实状态一致。如果你找不到 spec 文件、对应 feature slice、AC 或必要公共入口，返回 Issues Found，并说明缺失的定位信息。
 
     ## 整体实现摘要
 
@@ -127,14 +127,14 @@ Controller 不应仅因 `wait_agent` 超时或 subagent running 时间较长而�
 
     ## 你的检查项
 
-    **1. Done Slice Coverage（已完成范围覆盖）**
-    - 每个已标记 `Implementation status: Done` 的 slice，是否都真实存在于当前集成结果中？
+    **1. Done Feature Slice Coverage（已完成范围覆盖）**
+    - 每个已标记 `Implementation status: Done` 的 feature slice，是否都真实存在于当前集成结果中？
     - 对应 AC 是否仍然能通过 spec 要求的公共入口被满足？
-    - 集成后是否出现某个 slice 局部存在、但整体路径不再打通的情况？
+    - 集成后是否出现某个 feature slice 局部存在、但整体路径不再打通的情况？
 
     **2. Out-of-Scope Guard（越界防护）**
-    - 是否有任何仍为 `Implementation status: Not done` 的 slice 被误实现？
-    - 是否误实现了其他子 spec？
+    - 是否有任何仍为 `Implementation status: Not done` 的 feature slice 被误实现？
+    - 是否误实现了其他 child spec？
     - 是否误实现了 `Candidate Future Split Specs` 中的内容？
     - 是否因为多个任务拼接在一起，出现了未经批准的新行为、额外分支、或 scope creep？
 
@@ -150,7 +150,7 @@ Controller 不应仅因 `wait_agent` 超时或 subagent running 时间较长而�
 
     **5. Verification Integrity（验证完整性）**
     - 集成后的测试结构是否仍然验证公共行为，而不是变成只验证局部实现细节？
-    - 是否有 slice 在单任务内有测试，但整体集成后测试映射已经失真？
+    - 是否有 feature slice 在单任务内有测试，但整体集成后测试映射已经失真？
     - 完整项目测试套件是否通过？报告实际命令、退出码、失败数量和关键失败内容。
 
     **6. Runtime Smoke Checks（运行时 smoke check）**
@@ -163,8 +163,8 @@ Controller 不应仅因 `wait_agent` 超时或 subagent running 时间较长而�
     只报告会阻塞“报告 controller 开发分支已完成收尾验证”的真实问题。
 
     以下都属于阻塞问题：
-    - 已标 Done 的 slice 事实上没完成
-    - 未标 Done 的 slice / 子 spec / 候选未来 spec 被误实现
+    - 已标 Done 的 feature slice 事实上没完成
+    - 未标 Done 的 feature slice / child spec / 候选未来 spec 被误实现
     - 公共入口被接错，或真实执行语义在集成后丢失
     - 跨任务集成导致冲突、重复行为、范围漂移或行为回退
 
@@ -183,11 +183,11 @@ Controller 不应仅因 `wait_agent` 超时或 subagent running 时间较长而�
     **Smoke Check Verification:**
     - [每个关键 trigger-driven workflow 的 smoke check 结果，或明确跳过原因；focused re-review 时说明重跑了哪些 smoke check、哪些前序结果仍沿用以及为什么]
 
-    **Done Slice Coverage:**
-    - [说明已标 Done 的 slice 是否都真实落地；若有缺口，指出具体 slice]
+    **Done Feature Slice Coverage:**
+    - [说明已标 Done 的 feature slice 是否都真实落地；若有缺口，指出具体 feature slice]
 
     **Out-of-Scope Audit:**
-    - [说明未完成 slice / 子 spec / Candidate Future Split Specs 是否保持未实现]
+    - [说明未完成 feature slice / child spec / Candidate Future Split Specs 是否保持未实现]
 
     **Integration Findings:**
     - [说明是否存在跨任务冲突、重复行为、状态分叉、接口错位或范围漂移]
@@ -202,4 +202,4 @@ Controller 不应仅因 `wait_agent` 超时或 subagent running 时间较长而�
     - [说明 controller 是否可以报告完成；如果不能，指出应派发收尾修复 subagent、重新打开哪个任务，或回到 brainstorming]
 ```
 
-**Subagent 返回：** `Status`、`Review Pass`、`Full Test Verification`、`Smoke Check Verification`、`Done Slice Coverage`、`Out-of-Scope Audit`、`Integration Findings`、`Runtime Semantics Findings`、`Issues`、`Assessment`。
+**Subagent 返回：** `Status`、`Review Pass`、`Full Test Verification`、`Smoke Check Verification`、`Done Feature Slice Coverage`、`Out-of-Scope Audit`、`Integration Findings`、`Runtime Semantics Findings`、`Issues`、`Assessment`。

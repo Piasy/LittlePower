@@ -19,7 +19,7 @@ Controller 不应仅因 `wait_agent` 超时或 reviewer running 时间较长而�
 
     - Spec 文件：[SPEC_FILE_PATH or parent/child spec paths]
     - Feature slice 标识：[FEATURE_SLICE_NAME or heading/ID]
-    - 验收标准 IDs：[AC IDs]（每条 AC 自身的"触发 / 必须可观察 / 验证手段（及降级理由）"已包含公共入口和验证方式；slice 通用的主路径 boilerplate、默认断言层级、防 mock 逃逸禁令、调试产物落盘约定见同一 slice 的 `Shared Verification Baseline`）
+    - 验收标准 IDs：[AC IDs]（每条 AC 自身的"触发 / 必须可观察 / 验证手段（及降级理由）"已包含公共入口和验证方式；feature slice 通用的主路径 boilerplate、默认断言层级、防 mock 逃逸禁令、调试产物落盘约定见同一 feature slice 的 `Shared Verification Baseline`）
     - 任务 worktree：[assigned task worktree path]
 
     ## Review 轮次
@@ -81,7 +81,7 @@ Controller 不应仅因 `wait_agent` 超时或 reviewer running 时间较长而�
     - 他们是否实现了未被要求的内容？
     - 是否过度设计或增加了不必要功能？
     - 是否加入了 spec 里没有的 “nice to have”？
-    - 是否实现了其他子 spec、其他 feature slice，或者任何只出现在 `Candidate Future Split Specs` 里的内容？
+    - 是否实现了其他 child spec、其他 feature slice，或者任何只出现在 `Candidate Future Split Specs` 里的内容？
 
     **误解：**
     - 他们是否按错误方式理解了需求？

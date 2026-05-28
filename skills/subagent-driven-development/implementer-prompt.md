@@ -17,7 +17,7 @@ Controller 应将通过 `using-git-worktrees` 准备好的任务 worktree 和任
 
     - Spec 文件：[SPEC_FILE_PATH or parent/child spec paths]
     - Feature slice 标识：[FEATURE_SLICE_NAME or heading/ID]
-    - 验收标准 IDs：[AC IDs]（每条 AC 自身的"触发 / 必须可观察 / 验证手段（及降级理由）"已包含公共入口和验证方式；slice 通用的主路径 boilerplate、默认断言层级、防 mock 逃逸禁令、调试产物落盘约定见同一 slice 的 `Shared Verification Baseline`）
+    - 验收标准 IDs：[AC IDs]（每条 AC 自身的"触发 / 必须可观察 / 验证手段（及降级理由）"已包含公共入口和验证方式；feature slice 通用的主路径 boilerplate、默认断言层级、防 mock 逃逸禁令、调试产物落盘约定见同一 feature slice 的 `Shared Verification Baseline`）
 
     ## 任务定位
 

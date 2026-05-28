@@ -20,7 +20,7 @@ description: Use when implementing an approved spec with task-specific code-chan
 在派发任何实现或 review 任务前，先确认：
 
 1. 这项工作已有一份已批准的 spec。
-2. 如果这项工作使用父/子 spec，除非 human partner 明确要求，否则当前轮次只实现一个已批准子 spec；不要实现其他子 spec，也不要实现父 spec 中仍列在 `Candidate Future Split Specs` 里的内容。
+2. 如果这项工作使用 parent/child spec，除非 human partner 明确要求，否则当前轮次只实现一个已批准 child spec；不要实现其他 child spec，也不要实现父 spec 中仍列在 `Candidate Future Split Specs` 里的内容。
 3. 每个待实现 feature slice 都有 `Implementation status: Not done`、具体行为、公共接口、验收标准和自动化验证指引。
 
 如果 spec 缺少必要行为、公共入口、验收标准或验证细节，停止实现，回到 `brainstorming` 修订。不要在实现工作流里发明产品/API/UI 行为，也不要使用独立于 spec 之外的“实现任务文档”。
@@ -40,11 +40,11 @@ description: Use when implementing an approved spec with task-specific code-chan
 - 如果当前任务是接手一个已有部分实现或前序 review 未通过的已有 worktree，仍然必须严格遵循本 skill 的 subagent 流程：补充实现或修复工作必须由同一个 implementer subagent 在同一个任务 worktree 内完成，不得由 controller 直接修改；完成后必须重新派发全新的 spec reviewer 和 code-quality reviewer 进行双阶段 review。
 - Subagent 不继承 controller 的完整 session 历史；controller 只构造该任务真正需要的输入。
 - Controller 必须提供已批准 spec 路径、feature slice 标识、AC ID 集合、公共入口提示、验证预期和必要代码上下文。
-- Implementer 和 spec reviewer 必须直接读取 spec 文件来定位当前 slice 和 AC。
+- Implementer 和 spec reviewer 必须直接读取 spec 文件来定位当前 feature slice 和 AC。
 - 实现者在报告 `DONE` 前必须自审完整性、明显缺陷和缺失测试。
 - 实现者不更新 spec status checkbox。
 - 任务通过双 review 后，controller 负责把已批准变更集成到 `controller` 开发分支、更新对应 `Implementation status`，并创建包含实际代码/测试变更的任务完成 commit；随后按 `using-git-worktrees` 清理任务 worktree，并关闭该任务 agent。
-- 如果 reviewer 提出非阻塞问题且 controller 决定暂不处理，controller 必须在勾选 `Implementation status` 的同一轮 spec 更新中记录该 concern、暂不处理理由和后续处置预期。父/子 spec 工作流记录到父 spec；单一 spec 工作流记录到该单一 spec。
+- 如果 reviewer 提出非阻塞问题且 controller 决定暂不处理，controller 必须在勾选 `Implementation status` 的同一轮 spec 更新中记录该 concern、暂不处理理由和后续处置预期。parent/child spec 工作流记录到父 spec；单一 spec 工作流记录到该单一 spec。
 - 不要创建只记录进度、不含实际实现的独立 commit。
 
 ## Review Gate（强制）
@@ -61,7 +61,7 @@ description: Use when implementing an approved spec with task-specific code-chan
 ### 首次 Review 与 Re-review 范围
 
 - 任务级首次 spec review、首次 code-quality review 和首次收尾验证，都直接基于当前任务上下文、真实 diff、最终代码和测试来审查，并先返回这一轮的完整 verdict。
-- 每个 review 阶段的首次 review 必须保留完整当前任务上下文：当前 slice 的 spec/AC、公共入口、真实任务 diff、相关测试和运行时语义要求。完整上下文指当前任务完整，不是跨任务、跨子 spec 或候选未来范围的无限上下文。
+- 每个 review 阶段的首次 review 必须保留完整当前任务上下文：当前 feature slice 的 spec/AC、公共入口、真实任务 diff、相关测试和运行时语义要求。完整上下文指当前任务完整，不是跨任务、跨 child spec 或候选未来范围的无限上下文。
 - 首次 spec review、首次 code-quality review 和触发时的收尾验证都可能耗时较长。Controller 必须保持耐心，质量优先于速度；`wait_agent` 超时只表示当前轮询没有终态结果，不表示 reviewer 失败。
 - Fix 后的 re-review 默认聚焦上一轮阻塞 verdict 和本轮新改动。Controller 不要让 fresh reviewer 从头重复完整审查，除非修复已经扩大为公共入口、测试策略、核心数据流或大范围重写。
 - Re-review 仍然使用 fresh reviewer。不要复用已经给出 verdict 的 reviewer；需要继承的是上一轮 verdict、fixer 报告、任务 worktree 的 staged/unstaged 约定和必要文件锚点，不是 reviewer 的长 session 历史。
@@ -134,14 +134,14 @@ flowchart TD
 7. Spec review 通过后，派发 code-quality reviewer；若 code-quality reviewer 返回阻塞问题 verdict，重复同任务 staged-baseline fix / focused fresh re-review。
 8. 双 review 通过后，controller 集成已批准变更、更新 spec status、创建完成 commit、清理任务 worktree，并关闭任务 agent。
 9. 重新读取 spec / TodoWrite，选择 spec 顺序中的下一个未完成 feature slice，直到本轮范围完成。
-10. 如果本轮连续集成了多个子 spec，在 `controller` 开发分支派发一个 fresh 收尾验证 subagent，顺序执行完整测试、关键 smoke check 和最终全量实现 review；全部通过后 controller 报告完成状态。若本轮只实现一个单一 spec 或一个子 spec，不执行本 skill 的收尾验证，直接报告单 spec 完成状态和已记录 concerns。
+10. 如果本轮连续集成了多个 child spec，在 `controller` 开发分支派发一个 fresh 收尾验证 subagent，顺序执行完整测试、关键 smoke check 和最终全量实现 review；全部通过后 controller 报告完成状态。若本轮只实现一个单一 spec 或一个 child spec，不执行本 skill 的收尾验证，直接报告单 spec 完成状态和已记录 concerns。
 
 ## 追踪与恢复
 
 - 已批准 spec 中的 `Implementation status` checkbox 是持久化进度事实来源。
 - TodoWrite 只负责 session 内执行追踪；重启后必须根据 spec status 重建。
-- 当某个 feature slice 通过双 review 后，controller 在 `controller` 开发分支把该 slice 从 `- [ ] Implementation status: Not done` 更新为 `- [x] Implementation status: Done`。
-- 勾选 `Implementation status` 时，如果存在已知但决定不修的非阻塞 reviewer concern，必须同时写入 spec：包含来源 reviewer、对应 slice/AC、concern 摘要、controller 接受风险或延期的理由，以及是否需要后续跟进。父/子 spec 记录到父 spec；没有父 spec 时记录到当前单一 spec。
+- 当某个 feature slice 通过双 review 后，controller 在 `controller` 开发分支把该 feature slice 从 `- [ ] Implementation status: Not done` 更新为 `- [x] Implementation status: Done`。
+- 勾选 `Implementation status` 时，如果存在已知但决定不修的非阻塞 reviewer concern，必须同时写入 spec：包含来源 reviewer、对应 feature slice/AC、concern 摘要、controller 接受风险或延期的理由，以及是否需要后续跟进。parent/child spec 记录到父 spec；没有父 spec 时记录到当前单一 spec。
 - 每个任务都应有一个包含代码/测试变更和对应 spec status 更新的完成 commit。
 
 中断后恢复执行前：
@@ -149,7 +149,7 @@ flowchart TD
 1. 重新读取已批准 spec。
 2. 对比 spec status 与当前仓库状态（`git status`、最近 commit、被改动文件）。
 3. 重建或校准 TodoWrite。
-4. 确认未完成 slice 仍有足够行为描述、公共接口、验收标准和自动化验证细节。
+4. 确认未完成 feature slice 仍有足够行为描述、公共接口、验收标准和自动化验证细节。
 5. 检查任务 worktree：已完成任务的残留 worktree 先清理；未完成任务的 worktree 先确认与 spec status 一致。若存在已有部分实现的 worktree，后续补充实现仍必须走完整 subagent 流程（同一 implementer subagent 修复/补充 + 全新 fresh reviewer 双阶段 review），不得由 controller 直接继续开发。
 6. 若 spec status 与仓库状态不一致，先把 status 对齐到你验证过的真实状态。
 7. 只有 spec、TodoWrite、git 和任务 worktree 状态全部对齐后，才能恢复派发任务。
@@ -190,9 +190,9 @@ flowchart TD
 
 ## Controller 开发分支收尾（条件强制）
 
-当本轮连续实现并集成了多个子 spec，且所有任务分支已经集成、任务 worktree 已由 `using-git-worktrees` 清理，现场应只剩 `controller` 开发分支。本 skill 的收尾只负责整体验证和完成报告，不规定后续分支处置方式。
+当本轮连续实现并集成了多个 child spec，且所有任务分支已经集成、任务 worktree 已由 `using-git-worktrees` 清理，现场应只剩 `controller` 开发分支。本 skill 的收尾只负责整体验证和完成报告，不规定后续分支处置方式。
 
-如果本轮只实现一个单一 spec 或父/子 spec 中的一个子 spec，跳过本节收尾验证；该 spec 的任务级双 review、spec status 更新和必要的 concern 记录就是完成条件。
+如果本轮只实现一个单一 spec 或 parent/child spec 中的一个 child spec，跳过本节收尾验证；该 spec 的任务级双 review、spec status 更新和必要的 concern 记录就是完成条件。
 
 首次收尾验证先直接返回完整 verdict；如果收尾 reviewer 给出阻塞 verdict，再由 controller 固定这一轮刚审过的 controller 分支状态，作为后续收尾修复的 baseline。
 
@@ -229,11 +229,11 @@ Implementer:
 
 ...
 
-[如果本轮连续集成多个子 spec]
+[如果本轮连续集成多个 child spec]
 [派发一个 fresh 收尾验证 subagent：完整测试、关键 smoke check、最终 review 均通过]
 [报告 controller 开发分支已通过收尾验证]
 
-[如果本轮只实现一个单一 spec 或一个子 spec]
+[如果本轮只实现一个单一 spec 或一个 child spec]
 [跳过收尾验证，报告该 spec 的任务级 review、验证、spec status 和已记录 concerns]
 ```
 
@@ -258,8 +258,8 @@ Implementer:
 - 把多个已完成任务攒到最后才 review，或把多个 review 结果攒到最后才修。
 - 任务集成后保留已完成任务 worktree。
 - 在双 review 通过前，把 spec feature slice 标成 done。
-- 连续集成多个子 spec 后，在 `controller` 开发分支未通过完整测试、必要 smoke check 和最终 review 时报告完成。
-- 只实现一个单一 spec 或一个子 spec 时，强行派发本 skill 的收尾验证 subagent。
+- 连续集成多个 child spec 后，在 `controller` 开发分支未通过完整测试、必要 smoke check 和最终 review 时报告完成。
+- 只实现一个单一 spec 或一个 child spec 时，强行派发本 skill 的收尾验证 subagent。
 - 试图找额外 finishing skill；需要收尾时，`controller` 分支收尾验证就是这个工作流的一部分。
 - Controller 决定不处理 reviewer 的非阻塞问题，却没有在对应 spec 中记录 concern 和理由。
 - 在入口只切换持久化状态、没有接上真实执行路径时，把任务视为完成。

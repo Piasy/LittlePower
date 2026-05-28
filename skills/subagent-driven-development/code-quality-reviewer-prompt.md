@@ -22,7 +22,7 @@ Spec reviewer 负责“不多不少地满足已批准 spec”；code-quality rev
 
     - Spec 文件：[SPEC_FILE_PATH or parent/child spec paths]
     - Feature slice 标识：[FEATURE_SLICE_NAME or heading/ID]
-    - 验收标准 IDs：[AC IDs]（每条 AC 自身的"触发 / 必须可观察 / 验证手段（及降级理由）"已包含公共入口和验证方式；slice 通用的主路径 boilerplate、默认断言层级、防 mock 逃逸禁令、调试产物落盘约定见同一 slice 的 `Shared Verification Baseline`）
+    - 验收标准 IDs：[AC IDs]（每条 AC 自身的"触发 / 必须可观察 / 验证手段（及降级理由）"已包含公共入口和验证方式；feature slice 通用的主路径 boilerplate、默认断言层级、防 mock 逃逸禁令、调试产物落盘约定见同一 feature slice 的 `Shared Verification Baseline`）
     - 任务 worktree：[assigned task worktree path]
     - Base commit：[BASE_SHA]
     - Head commit：[HEAD_SHA]
@@ -110,7 +110,7 @@ Spec reviewer 负责“不多不少地满足已批准 spec”；code-quality rev
 
     **5. 明显需求/范围回归**
     Spec 一致性已由前一阶段审查通过；这里不要重复完整 spec review。
-    但如果你在质量审查中发现明显的需求遗漏、scope creep、误实现其他子 spec、或 `Candidate Future Split Specs` 内容被误实现，必须报告。
+    但如果你在质量审查中发现明显的需求遗漏、scope creep、误实现其他 child spec、或 `Candidate Future Split Specs` 内容被误实现，必须报告。
 
     ## 严重级别
 
