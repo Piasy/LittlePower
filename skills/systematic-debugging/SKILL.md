@@ -263,7 +263,7 @@ description: 当遇到 bug、test failure、flaky test、构建失败、性能�
 - “Is that not happening?”：你做了未验证的假设。
 - “Will it show us...?”：你应该先加诊断证据。
 - “Stop guessing”：你在没理解前提下提修复。
-- “Ultrathink this”：问题可能是架构/设计层面的，不只是局部症状。
+- “Ultra-think this”：问题可能是架构/设计层面的，不只是局部症状。
 - “We're stuck?”：当前方法没有推进根因定位。
 
 ## 常见自我合理化
