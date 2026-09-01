@@ -1,6 +1,6 @@
 ---
 name: karpathy-vibe
-description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
+description: Use only when the requested outcome requires modifying code, such as implementing a feature, fixing a bug, changing behavior, refactoring, or editing tests.
 license: MIT
 ---
 
